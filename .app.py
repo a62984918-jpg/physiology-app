@@ -1,68 +1,68 @@
 import streamlit as st
-import time
 
-# 1. إعدادات الصفحة والتصميم
-st.set_page_config(page_title="BioLive XR | Future of Bio", layout="wide")
+# 1. إعدادات الصفحة والهوية البصرية (أرجواني طبي)
+st.set_page_config(page_title="HormoneInsight AI", layout="wide")
 
 st.markdown("""
     <style>
-    .stApp { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: #00f2fe; }
-    .glass-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(0, 242, 254, 0.3);
-        border-radius: 20px;
-        padding: 25px;
+    .stApp { background-color: #0d0118; color: #f0e6ff; }
+    .card { 
+        background-color: #1b0a2e; 
+        padding: 25px; 
+        border-radius: 20px; 
+        border: 1px solid #4b2c71;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         margin-bottom: 20px;
     }
-    .neon-text { color: #00f2fe; text-shadow: 0 0 10px #00f2fe; text-align: center; }
-    .stButton>button { background: linear-gradient(45deg, #00f2fe, #4facfe); color: white; border-radius: 12px; border: none; }
+    h1, h2 { color: #d4a5ff; text-align: center; font-family: 'Segoe UI'; }
+    .stSlider > div > div > div { background: #d4a5ff; }
     </style>
     """, unsafe_allow_html=True)
 
-st.markdown("<h1 class='neon-text'>⚡ BioLive XR</h1>", unsafe_allow_html=True)
+# 2. الهيدر
+st.markdown("<h1>🧬 نظام تحليل التوازن الهرموني (PCOS Insight)</h1>", unsafe_allow_html=True)
+st.write("<p style='text-align: center;'>أداة متقدمة لتحليل متلازمة تكيس المبايض والاضطرابات الهرمونية</p>", unsafe_allow_html=True)
+st.write("---")
 
-tab1, tab2, tab3 = st.tabs(["🚀 AR Scanner", "🔬 Virtual Lab", "🧠 AI Tutor"])
+# 3. تنظيم المحتوى
+col1, col2 = st.columns([1, 1.2])
 
-with tab1:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.subheader("📸 محاكي الماسح الضوئي (AR Scanner)")
-    uploaded_file = st.file_uploader("ارفع صورة الكتاب هنا...", type=["jpg", "png", "jpeg"])
-    
-    if uploaded_file:
-        with st.spinner("جاري المسح الضوئي بتقنية AR..."):
-            time.sleep(2)
-            st.success("✅ تم اكتشاف نموذج ثلاثي الأبعاد!")
-            st.markdown("### 🧬 معاينة النموذج:")
-            # استخدمنا "أيقونة" كبيرة بدلاً من الصورة التي قد تتعطل
-            st.markdown("<h1 style='text-align:center; font-size: 100px;'>🫀</h1>", unsafe_allow_html=True)
-            st.info("ملاحظة: في النسخة الكاملة، يظهر هنا قلب نابض بتقنية XR.")
+with col1:
+    st.markdown("<div class='card'>", unsafe_allow_html=True)
+    st.subheader("📥 إدخال البيانات المخبرية")
+    lh_level = st.slider("مستوى هرمون LH (mIU/mL)", 1.0, 30.0, 5.0)
+    fsh_level = st.slider("مستوى هرمون FSH (mIU/mL)", 1.0, 30.0, 5.0)
+    insulin_res = st.selectbox("مقاومة الأنسولين:", ["لا يوجد", "متوسطة", "مرتفعة"])
     st.markdown("</div>", unsafe_allow_html=True)
 
-with tab2:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.subheader("🧪 المختبر الافتراضي")
-    exp = st.selectbox("اختر التجربة:", ["تشريح القلب", "فحص كريات الدم", "الهرمونات"])
+with col2:
+    st.markdown("<div class='card'>", unsafe_allow_html=True)
+    st.subheader("🔬 التحليل الفسيولوجي الذكي")
     
-    if st.button("تشغيل المحاكاة"):
-        progress_text = "جاري تحضير الأدوات المخبرية..."
-        my_bar = st.progress(0, text=progress_text)
-        for percent_complete in range(100):
-            time.sleep(0.01)
-            my_bar.progress(percent_complete + 1, text=progress_text)
+    if st.button("بدء تحليل الهرمونات"):
+        # حساب النسبة الهرمونية (معادلة علمية حقيقية)
+        ratio = lh_level / fsh_level
         
-        st.markdown("<h1 style='text-align:center; font-size: 100px;'>🔬</h1>", unsafe_allow_html=True)
-        st.success(f"مختبر {exp} جاهز الآن. تم تفعيل واجهة التحكم التفاعلية.")
+        st.write(f"**النسبة الحالية (LH/FSH):** {ratio:.2f}")
+        
+        if ratio >= 2.0 or (ratio > 1.5 and insulin_res != "لا يوجد"):
+            st.error("⚠️ مؤشر مرتفع: القراءات تشير إلى احتمالية عالية لوجود تكيس (PCOS).")
+            st.info("**التفسير العلمي:** ارتفاع هرمون LH بالنسبة لـ FSH يعطل عملية التبويض الطبيعية.")
+        else:
+            st.success("✅ القراءات ضمن النطاق الطبيعي المتوازن.")
+            st.balloons()
+            
+        st.markdown("---")
+        st.subheader("🥗 نصيحة النظام:")
+        if insulin_res != "لا يوجد":
+            st.warning("يُنصح باتباع نظام غذائي منخفض السكريات لتحسين استجابة الأنسولين.")
+        else:
+            st.write("استمر في الحفاظ على نمط حياة صحي لضمان توازن الغدد الصماء.")
+    else:
+        st.info("قم بتحريك المنزلقات واضغط على زر التحليل لمشاهدة قوة الذكاء الاصطناعي في التشخيص.")
     st.markdown("</div>", unsafe_allow_html=True)
 
-with tab3:
-    st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
-    st.subheader("🤖 مساعد Bio-AI")
-    user_input = st.text_input("اسألني عن أي وظيفة حيوية:")
-    if user_input:
-        st.markdown(f"**التحليل الذكي لـ '{user_input}':**")
-        st.write("وفقاً للمراجعات العلمية، هذه العملية حيوية للحفاظ على التوازن الداخلي (Homeostasis) من خلال التغذية الراجعة.")
-    st.markdown("</div>", unsafe_allow_html=True)
-
-st.sidebar.markdown("<h2 class='neon-text'>BioLive XR</h2>", unsafe_allow_html=True)
-st.sidebar.write("تكنولوجيا تعليم الأحياء - إصدار 2026")
+# 4. التذييل
+st.sidebar.markdown("### 🧬 كيف يعمل البرنامج؟")
+st.sidebar.write("يعتمد البرنامج على خوارزمية تربط بين نسبة الهرمونات المنبهة للقشرة وبين مقاومة الأنسولين لتقديم رؤية فسيولوجية شاملة.")
+st.sidebar.caption("إصدار خاص - تكنولوجيا التعليم الطبي 2026")
